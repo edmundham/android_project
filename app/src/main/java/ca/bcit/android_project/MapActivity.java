@@ -1,8 +1,6 @@
 package ca.bcit.android_project;
 
 import android.Manifest;
-import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
@@ -10,13 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.CheckBox;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -24,18 +16,11 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class MapActivity extends AppCompatActivity implements
@@ -47,14 +32,8 @@ public class MapActivity extends AppCompatActivity implements
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
-    private LocationRequest mLocationRequest;
 
-    private Marker currentUserLocationMarker;
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
-    private LatLng mDefaultLocation = new LatLng(49.255942, -123.063273);
-    private CheckBox checkBox;
-    private TextView distanceText;
-    public static final String TAG = MapActivity.class.getName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +45,7 @@ public class MapActivity extends AppCompatActivity implements
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
+        assert mapFragment != null;
         mapFragment.getMapAsync(this);
 
     }
@@ -104,7 +84,7 @@ public class MapActivity extends AppCompatActivity implements
     @Override
     public void onConnected(Bundle bundle) {
 
-        mLocationRequest = new LocationRequest();
+        LocationRequest mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(5100);
         mLocationRequest.setFastestInterval(5100);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
@@ -128,9 +108,6 @@ public class MapActivity extends AppCompatActivity implements
     public void onLocationChanged(Location location) {
 
         mLastLocation = location;
-        if (currentUserLocationMarker != null) {
-            currentUserLocationMarker.remove();
-        }
 
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
 
