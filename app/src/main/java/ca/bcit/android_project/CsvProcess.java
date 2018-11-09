@@ -55,7 +55,6 @@ public class CsvProcess {
             String csvLine;
             while ((csvLine = reader.readLine()) != null) {
                 String[] row = csvLine.split(",");
-
                 System.out.print(csvLine + "\n\n\n\n");
             }
         }
