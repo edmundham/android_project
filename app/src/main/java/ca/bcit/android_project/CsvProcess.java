@@ -8,7 +8,7 @@ import java.io.IOException;
 public class CsvProcess {
     public double userLat;
     public double userLong;
-    String csvFile = "https://opendata.arcgis.com/datasets/28c37c4693fc4db68665025c2874e76b_7.csv";
+    String csvFile = "";
 
     public CsvProcess() {
         BufferedReader br = null;
