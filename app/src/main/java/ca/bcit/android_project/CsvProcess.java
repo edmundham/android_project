@@ -8,7 +8,7 @@ import java.io.IOException;
 public class CsvProcess {
     public double userLat;
     public double userLong;
-    String csvFile = "";
+    String csvFile = "./res/values/Property_Crimes.csv";
 
     public CsvProcess() {
         BufferedReader br = null;
@@ -22,8 +22,6 @@ public class CsvProcess {
 
                 // use comma as separator
                 String[] country = line.split(cvsSplitBy);
-
-                System.out.println("Country [code= " + country[4] + " , name=" + country[5] + "]");
 
             }
 
