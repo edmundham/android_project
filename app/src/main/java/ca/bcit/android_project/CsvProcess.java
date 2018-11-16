@@ -17,36 +17,7 @@ public class CsvProcess {
     InputStream input;
     public CsvProcess(InputStream file) {
         this.input = file;
-//
-//        System.out.println(System.getProperty("user.dir"));
-//        BufferedReader br = null;
-//        String line = "";
-//        String cvsSplitBy = ",";
-//
-//        try {
-//
-//            br = new BufferedReader(new FileReader(csvFile));
-//            while ((line = br.readLine()) != null) {
-//
-//                // use comma as separator
-//               System.out.println(line + "\n\n\n\n" );
-//
-//
-//            }
-//
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } finally {
-//            if (br != null) {
-//                try {
-//                    br.close();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
+
     }
     public List read(){
         List resultList = new ArrayList();
@@ -55,6 +26,23 @@ public class CsvProcess {
             String csvLine;
             while ((csvLine = reader.readLine()) != null) {
                 String[] row = csvLine.split(",");
+
+int id = row[2];
+String ReportWeekDday =
+                /**
+
+                 * [2]OBJECTID,
+
+
+                 * [7]ReportedTime,
+                 * [8]ReportedWeekday,
+                 * [9]Offense,
+                 * [10]OffenseCategory,
+                 * [11]HouseNumber,
+                 * [12]StreetName,
+                 * [13]City,
+
+                 */
                 System.out.print(csvLine + "\n\n\n\n");
             }
         }
@@ -75,4 +63,3 @@ public class CsvProcess {
 
 
 }
-
