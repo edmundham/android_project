@@ -33,10 +33,10 @@ public class listActivity extends AppCompatActivity {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(listActivity.this, CrimeActivity.class);
-                intent.putExtra("data", crimesList);
-                intent.putExtra("index", i);
-                startActivity(intent);
+//                Intent intent = new Intent(listActivity.this, CrimeActivity.class);
+//                intent.putExtra("data", crimesList);
+//                intent.putExtra("index", i);
+//                startActivity(intent);
             }
         });
     }
