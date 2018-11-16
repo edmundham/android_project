@@ -2,6 +2,8 @@ package ca.bcit.android_project;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,6 +23,12 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 
 public class MapActivity extends AppCompatActivity implements
@@ -32,6 +40,7 @@ public class MapActivity extends AppCompatActivity implements
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
+    private ArrayList<Crime> crimes;
 
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
 
@@ -48,6 +57,7 @@ public class MapActivity extends AppCompatActivity implements
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
 
+        crimes = CsvProcess.convertCsvToListOfCrimes(this);
     }
 
     @Override
@@ -67,6 +77,39 @@ public class MapActivity extends AppCompatActivity implements
             buildGoogleApiClient();
             mMap.setMyLocationEnabled(true);
         }
+
+//        LatLngGetByAddress latLngGetByAddress = new LatLngGetByAddress();
+        
+        String address = crimes.get(0).getHouseNumber().replace('X', '0')
+                    + crimes.get(0).getStreetName() + crimes.get(0).getCity();
+        LatLng latLng = null;
+        Geocoder coder = new Geocoder(this);
+        List<Address> googleAddress = null;
+        try {
+            googleAddress = coder.getFromLocationName(address, 1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        latLng = new LatLng(googleAddress.get(0).getLatitude(), googleAddress.get(0).getLongitude());
+        mMap.addMarker(new MarkerOptions().position(latLng));
+        
+//        for (Crime crime : crimes) {
+//            String address = crime.getHouseNumber().replace('X', '0')
+//                    + crime.getStreetName() + crime.getCity();
+//            LatLng latLng = null;
+//            Geocoder coder = new Geocoder(this);
+//            List<Address> googleAddress;
+//            try {
+//                googleAddress = coder.getFromLocationName(address, 1);
+//                latLng = new LatLng(googleAddress.get(0).getLatitude(), googleAddress.get(0).getLongitude());
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            if (latLng == null) {
+//                continue;
+//            }
+//            mMap.addMarker(new MarkerOptions().position(latLng));
+//        }
 
 //        DON'T NEED TO MOVE THE CAMERA TO THE DEFAULT LOCATION WITH ZOOMING VALUE
 //        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, 13f));
