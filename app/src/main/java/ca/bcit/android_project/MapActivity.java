@@ -1,13 +1,19 @@
 package ca.bcit.android_project;
 
 import android.Manifest;
+import android.app.IntentService;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.ResultReceiver;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -37,7 +43,7 @@ public class MapActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
 
-    private GoogleMap mMap;
+    public GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
     private ArrayList<Crime> crimes;
@@ -78,20 +84,38 @@ public class MapActivity extends AppCompatActivity implements
             mMap.setMyLocationEnabled(true);
         }
 
+        for (int i = 0; i < 20; i++) {
+            String address = crimes.get(i).getHouseNumber().replace('X', '0')
+                    + crimes.get(i).getStreetName() + crimes.get(i).getCity();
+            LatLng latLng = null;
+            Geocoder coder = new Geocoder(this);
+            List<Address> googleAddress;
+            try {
+                googleAddress = coder.getFromLocationName(address, 1);
+                latLng = new LatLng(googleAddress.get(0).getLatitude(), googleAddress.get(0).getLongitude());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (latLng == null) {
+                continue;
+            }
+            mMap.addMarker(new MarkerOptions().position(latLng));
+        }
+
 //        LatLngGetByAddress latLngGetByAddress = new LatLngGetByAddress();
         
-        String address = crimes.get(0).getHouseNumber().replace('X', '0')
-                    + crimes.get(0).getStreetName() + crimes.get(0).getCity();
-        LatLng latLng = null;
-        Geocoder coder = new Geocoder(this);
-        List<Address> googleAddress = null;
-        try {
-            googleAddress = coder.getFromLocationName(address, 1);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        latLng = new LatLng(googleAddress.get(0).getLatitude(), googleAddress.get(0).getLongitude());
-        mMap.addMarker(new MarkerOptions().position(latLng));
+//        String address = crimes.get(0).getHouseNumber().replace('X', '0')
+//                    + crimes.get(0).getStreetName() + crimes.get(0).getCity();
+//        LatLng latLng = null;
+//        Geocoder coder = new Geocoder(this);
+//        List<Address> googleAddress = null;
+//        try {
+//            googleAddress = coder.getFromLocationName(address, 1);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        latLng = new LatLng(googleAddress.get(0).getLatitude(), googleAddress.get(0).getLongitude());
+//        mMap.addMarker(new MarkerOptions().position(latLng));
         
 //        for (Crime crime : crimes) {
 //            String address = crime.getHouseNumber().replace('X', '0')
@@ -222,7 +246,6 @@ public class MapActivity extends AppCompatActivity implements
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
-
 
 }
 
