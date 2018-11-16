@@ -9,6 +9,7 @@ public class MarkerService extends IntentService {
         super(name);
     }
 
+    //TODO: Need to make background service working since geocoder is blocking UI loading
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
 
