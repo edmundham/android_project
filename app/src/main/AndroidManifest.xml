@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ca.bcit.android_project">
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <!--
@@ -9,8 +10,7 @@
          location permissions for the 'MyLocation' functionality. 
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.INTERNET"/>
-
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -26,7 +26,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".listActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -42,8 +41,12 @@
 
         <activity
             android:name=".MapActivity"
-            android:label="@string/title_activity_map"/>
-        <uses-library android:name="org.apache.http.legacy" android:required="false"/>
+            android:label="@string/title_activity_map" />
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
     </application>
 
 </manifest>
