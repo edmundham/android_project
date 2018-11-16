@@ -4,75 +4,67 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.List;
 
 public class CsvProcess {
-
     public double userLat;
     public double userLong;
-    String csvFile = "Property_Crimes.csv";
-    InputStream input;
-    public CsvProcess(InputStream file) {
-        this.input = file;
-//
-//        System.out.println(System.getProperty("user.dir"));
-//        BufferedReader br = null;
-//        String line = "";
-//        String cvsSplitBy = ",";
-//
-//        try {
-//
-//            br = new BufferedReader(new FileReader(csvFile));
-//            while ((line = br.readLine()) != null) {
-//
-//                // use comma as separator
-//               System.out.println(line + "\n\n\n\n" );
-//
-//
-//            }
-//
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } finally {
-//            if (br != null) {
-//                try {
-//                    br.close();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
+    String csvFileSuggestedAddress = "./res/values/Property_Crimes.csv";
+
+    public CsvProcess() {
+
     }
-    public List read(){
-        List resultList = new ArrayList();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+
+    public ArrayList<String[]> csvProcessing(String fileAddress) {
+        ArrayList<String[]> stringlist = new ArrayList<String[]>();
+        String csvFile = fileAddress;
+        BufferedReader br = null;
+        String line = "";
+        String cvsSplitBy = ",";
+        /**
+         * Return ArrayList of String array.
+         * use country[number] to refer to certain attribute inside the arraylist.
+         * Number reference list
+         * [0]X,
+         * [1]Y,
+         * [2]OBJECTID,
+         * [3]FileNumber,
+         * [4]OccuranceYear,
+         * [5]ReportedDate,
+         * [6]ReportedTime,
+         * [7]ReportedWeekday,
+         * [8]Offense,
+         * [9]OffenseCategory,
+         * [10]HouseNumber,
+         * [11]StreetName,
+         * [12]City,
+         * [13]ReportedDateText,
+         * [14]ReportedTimeText
+         */
         try {
-            String csvLine;
-            while ((csvLine = reader.readLine()) != null) {
-                String[] row = csvLine.split(",");
-                System.out.print(csvLine + "\n\n\n\n");
+
+            br = new BufferedReader(new FileReader(csvFile));
+            while ((line = br.readLine()) != null) {
+
+                // use comma as separator
+                String[] country = line.split(cvsSplitBy);
+                stringlist.add(country);
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
-        catch (IOException ex) {
-            throw new RuntimeException("Error in reading CSV file: "+ex);
-        }
-        finally {
-            try {
-                input.close();
-            }
-            catch (IOException e) {
-                throw new RuntimeException("Error while closing input stream: "+e);
-            }
-        }
-        return resultList;
+        return stringlist;
     }
-
-
 
 }
-
