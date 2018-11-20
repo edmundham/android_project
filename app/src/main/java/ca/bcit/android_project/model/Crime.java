@@ -1,4 +1,4 @@
-package ca.bcit.android_project;
+package ca.bcit.android_project.model;
 
 import java.io.Serializable;
 import java.sql.Date;

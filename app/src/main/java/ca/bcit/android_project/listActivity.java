@@ -1,8 +1,5 @@
 package ca.bcit.android_project;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.graphics.Region;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +8,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+
+import ca.bcit.android_project.model.Crime;
+import ca.bcit.android_project.service.CsvProcess;
 
 public class listActivity extends AppCompatActivity {
 
