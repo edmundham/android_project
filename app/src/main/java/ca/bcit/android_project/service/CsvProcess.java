@@ -1,23 +1,19 @@
-package ca.bcit.android_project;
+package ca.bcit.android_project.service;
 
 import android.content.Context;
-import android.os.Environment;
-import android.util.Log;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
-import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
 
-import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
-import java.util.List;
+
+import ca.bcit.android_project.model.Crime;
+import ca.bcit.android_project.R;
 
 public class CsvProcess {
     public double userLat;
@@ -41,12 +37,6 @@ public class CsvProcess {
 
             for (CSVRecord record : parser) {
                 if (record.get("City").equalsIgnoreCase("City")) {
-                    continue;
-                }
-                if (!record.get("OccuranceYear").equalsIgnoreCase("2018")) {
-                    continue;
-                }
-                if (!record.get("ReportedWeekday").equalsIgnoreCase("Sunday")) {
                     continue;
                 }
                 crimes.add(new Crime(record.get("X"), record.get("Y"), record.get("OBJECTID"),
