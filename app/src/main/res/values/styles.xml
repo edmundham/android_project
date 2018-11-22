@@ -8,4 +8,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="WhiteTheme" parent="Base.Theme.AppCompat.Light">
+        <item name="android:colorPrimary">@color/colorWhitePrimary</item>
+        <item name="colorPrimaryDark">@color/colorWhitePrimaryDark</item>
+        <item name="colorAccent">@color/colorWhiteAccent</item>
+    </style>
+
 </resources>

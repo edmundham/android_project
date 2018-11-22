@@ -26,7 +26,7 @@ public class listActivity extends AppCompatActivity {
             detail += c.getCity() + " (" +c.getReportedDateText() + ")";
             crimesAddress.add(detail);
         }
-        ListView lv = findViewById(R.id.list);
+        ListView lv = findViewById(R.id.crimesList);
 
         lv.setAdapter(new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, crimesAddress));
