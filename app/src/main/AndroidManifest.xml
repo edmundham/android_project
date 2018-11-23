@@ -46,6 +46,10 @@
             android:name=".MapActivity"
             android:label="@string/title_activity_map" />
 
+        <activity
+            android:name=".CrimeActivity"
+         />
+
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />

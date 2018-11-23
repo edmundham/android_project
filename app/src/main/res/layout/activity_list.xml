@@ -36,7 +36,8 @@
         android:layout_height="494dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        app:layout_constraintBottom_toBottomOf="parent"
+
+        app:layout_constraintBottom_toBottomOf="@id/searchBox"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
