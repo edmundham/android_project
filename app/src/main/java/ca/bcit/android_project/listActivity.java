@@ -68,8 +68,8 @@ public class listActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(listActivity.this, CrimeActivity.class);
-                intent.putExtra("data", crimesList);
-                intent.putExtra("index", i);
+                String data = crimesList.get(i).toString();
+                intent.putExtra("data", data);
                 startActivity(intent);
             }
         });

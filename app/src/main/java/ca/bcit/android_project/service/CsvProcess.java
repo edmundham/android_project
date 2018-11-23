@@ -45,7 +45,7 @@ public class CsvProcess {
                         record.get("FileNumber"), record.get("OccuranceYear"), record.get("ReportedDate"),
                         record.get("ReportedTime"), record.get("ReportedWeekday"), record.get("Offense"),
                         record.get("OffenseCategory"), record.get("HouseNumber"), record.get("StreetName"),
-                        record.get("City"), record.get("ReportedDateText"), record.get("ReportedTimeText")));
+                        record.get("City"), record.get("ReportedDateText"), record.get("ReportedTimeText"), null, null));
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();

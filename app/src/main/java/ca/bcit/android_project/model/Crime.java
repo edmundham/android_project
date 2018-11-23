@@ -20,6 +20,8 @@ public class Crime implements Serializable {
     private String city;
     private String reportedDateText;
     private String reportedTimeText;
+    private String lat;
+    private String lon;
 
     public String getX() {
         return x;
@@ -145,7 +147,7 @@ public class Crime implements Serializable {
                  String occuranceYear, String reportedDate, String reportedTime,
                  String reportedWeekday, String offense, String offenseCategory,
                  String houseNumber, String streetName, String city, String reportedDateText,
-                 String reportedTimeText) {
+                 String reportedTimeText, String lat, String lon) {
         this.x = x;
         this.y = y;
         this.objectId = objectId;
@@ -161,7 +163,29 @@ public class Crime implements Serializable {
         this.city = city;
         this.reportedDateText = reportedDateText;
         this.reportedTimeText = reportedTimeText;
+        this.lat = lat;
+        this.lon = lon;
     }
 
 
+    public String getLon() {
+        return lon;
+    }
+
+    public void setLon(String lon) {
+        this.lon = lon;
+    }
+
+    public String getLat() {
+        return lat;
+    }
+
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
+    public String toString() {
+        return x + "," + y + "," + objectId + "," + fileNumber + "," + occuranceYear + "," + reportedDate + "," + reportedTime + "," + reportedWeekday + "," + offense + "," + offenseCategory
+                + "," + houseNumber + "," + streetName + "," + city + "," + reportedDateText + "," + reportedTimeText + "," + lat + "," + lon;
+    }
 }

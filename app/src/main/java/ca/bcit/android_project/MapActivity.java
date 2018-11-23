@@ -91,57 +91,7 @@ public class MapActivity extends AppCompatActivity implements
         // Get the activity
         mActivity = MapActivity.this;
 
-        // Get the widgets reference from XML layout
-        mRelativeLayout = (RelativeLayout) findViewById(R.id.map_layout);
-        mButton = (Button) findViewById(R.id.btn);
-        mButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                System.out.print("CLICKING");
-                // Initialize a new instance of LayoutInflater service
-                LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(LAYOUT_INFLATER_SERVICE);
 
-
-                View customView = inflater.inflate(R.layout.sort_layout,null);
-
-                mPopupWindow = new PopupWindow(
-                        customView,LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT
-
-                );
-                if(Build.VERSION.SDK_INT>=21){
-                    mPopupWindow.setElevation(5.0f);
-                }
-
-                // Get a reference for the custom view close button
-                ImageButton closeButton = (ImageButton) customView.findViewById(R.id.ib_close);
-
-                // Set a click listener for the popup window close button
-                closeButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        // Dismiss the popup window
-                        mPopupWindow.dismiss();
-                    }
-                });
-
-                /*
-                    public void showAtLocation (View parent, int gravity, int x, int y)
-                        Display the content view in a popup window at the specified location. If the
-                        popup window cannot fit on screen, it will be clipped.
-                        Learn WindowManager.LayoutParams for more information on how gravity and the x
-                        and y parameters are related. Specifying a gravity of NO_GRAVITY is similar
-                        to specifying Gravity.LEFT | Gravity.TOP.
-
-                    Parameters
-                        parent : a parent view to get the getWindowToken() token from
-                        gravity : the gravity which controls the placement of the popup window
-                        x : the popup's x location offset
-                        y : the popup's y location offset
-                */
-                // Finally, show the popup window at the center location of root relative layout
-                mPopupWindow.showAtLocation(mRelativeLayout, Gravity.CENTER,0,0);
-            }
-        });
     }
 
     @Override
@@ -244,7 +194,7 @@ public class MapActivity extends AppCompatActivity implements
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
                 mGoogleApiClient);
         if (mLastLocation != null) {
-            LatLng loc = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
+            LatLng loc = new LatLng(49.2193, -122.5984);
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, 15f));
         }
     }
@@ -256,7 +206,7 @@ public class MapActivity extends AppCompatActivity implements
 
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
 
-        mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+//        mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
     }
 
     public void checkLocationPermission() {

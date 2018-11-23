@@ -10,7 +10,9 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import ca.bcit.android_project.model.Crime;
 
@@ -34,6 +36,9 @@ public class FilterService {
         searchedList = crimesGetByOffenceCategory(input);
         if (!searchedList.isEmpty()) {
             temp.addAll(searchedList);
+            Set<Crime> crimeSet = new HashSet<>(temp);
+            temp.clear();
+            crimeSet.addAll(temp);
             return temp;
         }
 
