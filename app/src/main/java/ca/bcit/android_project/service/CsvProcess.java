@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
+import java.util.List;
 
 import ca.bcit.android_project.model.Crime;
 import ca.bcit.android_project.R;
@@ -19,14 +20,15 @@ public class CsvProcess {
     public double userLat;
     public double userLong;
     public static final String csvFileSuggestedAddress = "../res/raw/data.csv";
+    public static List<Crime> crimes;
 
     public CsvProcess() {
 
     }
 
-    public final static ArrayList<Crime> convertCsvToListOfCrimes(Context context) {
+    public final static List<Crime> convertCsvToListOfCrimes(Context context) {
         Reader in;
-        ArrayList<Crime> crimes = new ArrayList<>();
+        List<Crime> crimes = new ArrayList<>();
         try {
 
             final Reader reader = new InputStreamReader(context.getResources().openRawResource(R.raw.data));
@@ -50,6 +52,7 @@ public class CsvProcess {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        CsvProcess.crimes = crimes;
         return crimes;
     }
 

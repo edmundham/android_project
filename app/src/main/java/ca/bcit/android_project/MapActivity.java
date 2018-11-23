@@ -53,7 +53,7 @@ public class MapActivity extends AppCompatActivity implements
     public GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
-    private ArrayList<Crime> crimes;
+    private List<Crime> crimes;
 
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
 
