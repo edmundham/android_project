@@ -19,9 +19,8 @@
         android:id="@+id/searchBox"
         android:layout_width="250dp"
         android:layout_height="34dp"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="18dp"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="14dp"
         android:background="@android:color/white"
         android:hint="Search Location"
@@ -37,12 +36,4 @@
         android:layout_marginTop="5dp"
         android:background="@drawable/ic_search" />
 
-    <Button
-        android:id="@+id/btn"
-        android:layout_width="69dp"
-        android:layout_height="38dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/searchBox"
-        android:layout_marginEnd="35dp"
-        android:text="Filter" />
 </RelativeLayout>

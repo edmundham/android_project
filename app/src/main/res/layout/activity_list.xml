@@ -9,17 +9,16 @@
 
     <EditText
         android:id="@+id/searchBox"
-        android:layout_width="267dp"
+        android:layout_width="343dp"
         android:layout_height="34dp"
-        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="16dp"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:background="@android:color/white"
         android:hint="Search Location"
-        android:paddingLeft="3dp"
-        android:inputType="text"
         android:imeOptions="actionSearch"
+        android:inputType="text"
+        android:paddingLeft="3dp"
         android:textColor="@android:color/black"></EditText>
 
     <Button
@@ -31,22 +30,12 @@
         android:layout_marginTop="5dp"
         android:background="@drawable/ic_search" />
 
-    <Button
-        android:id="@+id/btn"
-        android:layout_width="69dp"
-        android:layout_height="38dp"
-        android:layout_alignBottom="@+id/searchBox"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="18dp"
-        android:text="Filter" />
-
     <ListView
         android:id="@+id/crimesList"
         android:layout_width="match_parent"
-        android:layout_height="457dp"
+        android:layout_height="494dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
