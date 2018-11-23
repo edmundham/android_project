@@ -247,7 +247,7 @@ public class MapActivity extends AppCompatActivity implements
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
                 mGoogleApiClient);
         if (mLastLocation != null) {
-            LatLng loc = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
+            LatLng loc = new LatLng(49.2193, -122.5984);
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, 15f));
         }
     }
@@ -259,7 +259,7 @@ public class MapActivity extends AppCompatActivity implements
 
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
 
-        mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+//        mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
     }
 
     public void checkLocationPermission() {
