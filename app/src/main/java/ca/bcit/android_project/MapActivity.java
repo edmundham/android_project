@@ -108,9 +108,6 @@ public class MapActivity extends AppCompatActivity implements
                         customView,LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT
 
                 );
-
-                // Set an elevation value for popup window
-                // Call requires API level 21
                 if(Build.VERSION.SDK_INT>=21){
                     mPopupWindow.setElevation(5.0f);
                 }
