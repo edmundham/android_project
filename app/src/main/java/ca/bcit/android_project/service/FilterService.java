@@ -16,7 +16,7 @@ import ca.bcit.android_project.model.Crime;
 
 public class FilterService {
 
-    private static String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+    private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 
     private List<Crime> crimes;
 
@@ -24,33 +24,55 @@ public class FilterService {
         crimes = CsvProcess.convertCsvToListOfCrimes(context);
     }
 
+    public List<Crime> search(String input) {
+        List<Crime> temp = new ArrayList<>();
+
+        List<Crime> searchedList = crimesGetByOffence(input);
+        if (!searchedList.isEmpty()) {
+            temp.addAll(searchedList);
+        }
+        searchedList = crimesGetByOffenceCategory(input);
+        if (!searchedList.isEmpty()) {
+            temp.addAll(searchedList);
+            return temp;
+        }
+
+        searchedList = crimesGetByYear(input);
+        if (!searchedList.isEmpty()) {
+            temp.addAll(searchedList);
+            return temp;
+        }
+
+        searchedList = crimesGetByCity(input);
+        if (!searchedList.isEmpty()) {
+            temp.addAll(searchedList);
+            return temp;
+        }
+
+        searchedList = crimesGetByWeekDay(input);
+        if (!searchedList.isEmpty()) {
+            temp.addAll(searchedList);
+            return temp;
+        }
+
+        searchedList = crimesGetByStreetName(input);
+        if (!searchedList.isEmpty()) {
+            temp.addAll(searchedList);
+            return temp;
+        }
+
+        return temp;
+    }
+
     public List<Crime> crimesFilterByDateTime() {
         Collections.sort(crimes, new DateComparator());
         return crimes;
     }
 
-    public List<Crime> crimesGetByDateTime(Date date) {
-        List<Crime> tempList = new ArrayList<>();
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT);
-        Date d1 = null;
-        Date d2 = null;
-        for (Crime crime : crimes) {
-            try {
-                d1 = format.parse(crime.getReportedDate());
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            if (d1 != null && d1.compareTo(date) == 0) {
-                tempList.add(crime);
-            }
-        }
-        return tempList;
-    }
-
-    public List<Crime> crimesGetByYear(int year) {
+    public List<Crime> crimesGetByYear(String year) {
         List<Crime> tempList = new ArrayList<>();
         for (Crime crime : crimes) {
-            if (crime.getOccuranceYear().equals(Integer.toString(year))) {
+            if (crime.getOccuranceYear().equals(year)) {
                 tempList.add(crime);
             }
         }
@@ -60,6 +82,56 @@ public class FilterService {
     public List<Crime> crimesFilterByWeekDay() {
         Collections.sort(crimes, new WeekDayComparator());
         return crimes;
+    }
+
+    public List<Crime> crimesGetByWeekDay(String weekDay) {
+        List<Crime> tempList = new ArrayList<>();
+        for (Crime crime : crimes) {
+            if (crime.getReportedWeekday().toLowerCase().contains(weekDay.toLowerCase())) {
+                tempList.add(crime);
+            }
+        }
+        return tempList;
+    }
+
+    public List<Crime> crimesGetByOffence(String offence) {
+        List<Crime> tempList = new ArrayList<>();
+        for (Crime crime : crimes) {
+            if (crime.getOffense().contains(offence.toUpperCase())) {
+                tempList.add(crime);
+            }
+        }
+        return tempList;
+    }
+
+    public List<Crime> crimesGetByOffenceCategory(String offenceCategory) {
+        List<Crime> tempList = new ArrayList<>();
+        for (Crime crime : crimes) {
+            if (crime.getOffenseCategory().contains(offenceCategory.toUpperCase())) {
+                tempList.add(crime);
+            }
+        }
+        return tempList;
+    }
+
+    public List<Crime> crimesGetByStreetName(String streetName) {
+        List<Crime> tempList = new ArrayList<>();
+        for (Crime crime : crimes) {
+            if (crime.getStreetName().contains(streetName.toUpperCase())) {
+                tempList.add(crime);
+            }
+        }
+        return tempList;
+    }
+
+    public List<Crime> crimesGetByCity(String city) {
+        List<Crime> tempList = new ArrayList<>();
+        for (Crime crime : crimes) {
+            if (crime.getCity().contains(city.toUpperCase())) {
+                tempList.add(crime);
+            }
+        }
+        return tempList;
     }
 
     private class DateComparator implements Comparator<Crime> {

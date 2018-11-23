@@ -1,6 +1,8 @@
 package ca.bcit.android_project;
 
 import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -11,6 +13,14 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -31,6 +41,7 @@ import java.util.List;
 
 import ca.bcit.android_project.model.Crime;
 import ca.bcit.android_project.service.CsvProcess;
+import android.widget.GridLayout.LayoutParams;
 
 
 public class MapActivity extends AppCompatActivity implements
@@ -42,9 +53,23 @@ public class MapActivity extends AppCompatActivity implements
     public GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
-    private ArrayList<Crime> crimes;
+    private List<Crime> crimes;
 
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
+
+
+
+    private Context mContext;
+    private Activity mActivity;
+
+    private RelativeLayout mRelativeLayout;
+    private Button mButton;
+
+    private PopupWindow mPopupWindow;
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +85,66 @@ public class MapActivity extends AppCompatActivity implements
         mapFragment.getMapAsync(this);
 
         crimes = CsvProcess.convertCsvToListOfCrimes(this);
+
+        mContext = getApplicationContext();
+
+        // Get the activity
+        mActivity = MapActivity.this;
+
+        // Get the widgets reference from XML layout
+        mRelativeLayout = (RelativeLayout) findViewById(R.id.map_layout);
+        mButton = (Button) findViewById(R.id.btn);
+        mButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.print("CLICKING");
+                // Initialize a new instance of LayoutInflater service
+                LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(LAYOUT_INFLATER_SERVICE);
+
+
+                View customView = inflater.inflate(R.layout.sort_layout,null);
+
+                mPopupWindow = new PopupWindow(
+                        customView,LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT
+
+                );
+
+                // Set an elevation value for popup window
+                // Call requires API level 21
+                if(Build.VERSION.SDK_INT>=21){
+                    mPopupWindow.setElevation(5.0f);
+                }
+
+                // Get a reference for the custom view close button
+                ImageButton closeButton = (ImageButton) customView.findViewById(R.id.ib_close);
+
+                // Set a click listener for the popup window close button
+                closeButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        // Dismiss the popup window
+                        mPopupWindow.dismiss();
+                    }
+                });
+
+                /*
+                    public void showAtLocation (View parent, int gravity, int x, int y)
+                        Display the content view in a popup window at the specified location. If the
+                        popup window cannot fit on screen, it will be clipped.
+                        Learn WindowManager.LayoutParams for more information on how gravity and the x
+                        and y parameters are related. Specifying a gravity of NO_GRAVITY is similar
+                        to specifying Gravity.LEFT | Gravity.TOP.
+
+                    Parameters
+                        parent : a parent view to get the getWindowToken() token from
+                        gravity : the gravity which controls the placement of the popup window
+                        x : the popup's x location offset
+                        y : the popup's y location offset
+                */
+                // Finally, show the popup window at the center location of root relative layout
+                mPopupWindow.showAtLocation(mRelativeLayout, Gravity.CENTER,0,0);
+            }
+        });
     }
 
     @Override
