@@ -6,4 +6,8 @@
     <string name="start_updates">START LOCATION UPDATES</string>
     <string name="stop_updates">STOP LOCATION UPDATES</string>
     <string name="get_last_location">GET LAST LOCATION</string>
+    <string name="_100">100</string>
+    <string name="alert_rate">Alert Rate</string>
+    <string name="crime_rate">Crime Rate</string>
+    <string name="map">Map</string>
 </resources>

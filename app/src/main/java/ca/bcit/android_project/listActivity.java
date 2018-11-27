@@ -1,28 +1,21 @@
 package ca.bcit.android_project;
-
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
+
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.Filter;
+
 import android.widget.ListView;
-import android.widget.SearchView;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 import ca.bcit.android_project.model.Crime;
@@ -52,13 +45,13 @@ public class listActivity extends AppCompatActivity {
             }
         });
 
-//        List<Crime> crimesList = new FilterService(this).crimesGetByYear("2018");
         List<String> crimesAddress = new ArrayList<>();
-
+        int i = 1;
         for(Crime c : crimesList){
-            String detail = "";
+            String detail = "" + i + ". ";
             detail += c.getCity() + " (" +c.getReportedDateText() + ")";
             crimesAddress.add(detail);
+            i++;
         }
         ListView lv = findViewById(R.id.crimesList);
 
@@ -79,11 +72,14 @@ public class listActivity extends AppCompatActivity {
         FilterService filterService = new FilterService(this);
         crimesList = filterService.search(input);
 
-        ArrayList<String> crimesAddress = new ArrayList<>();
+        List<String> crimesAddress = new ArrayList<>();
+
+        int i = 1;
         for(Crime c : crimesList){
-            String detail = "";
+            String detail = "" + i + ". ";
             detail += c.getCity() + " (" +c.getReportedDateText() + ")";
             crimesAddress.add(detail);
+            i++;
         }
         ListView lv = findViewById(R.id.crimesList);
 
@@ -92,10 +88,10 @@ public class listActivity extends AppCompatActivity {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                Intent intent = new Intent(listActivity.this, CrimeActivity.class);
-//                intent.putExtra("data", crimesList);
-//                intent.putExtra("index", i);
-//                startActivity(intent);
+                Intent intent = new Intent(listActivity.this, CrimeActivity.class);
+                String data = crimesList.get(i).toString();
+                intent.putExtra("data", data);
+                startActivity(intent);
             }
         });
 
