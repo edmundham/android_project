@@ -35,10 +35,10 @@ public class CrimeActivity extends AppCompatActivity {
 
 
 
-        reportedDatetv.setText(reportedDate);
-        offensetv.setText(offense);
-        addresstv.setText(address);
-        reportedDateTexttv.setText(reportedDateText);
+        reportedDatetv.setText("Date and Time: " + reportedDate);
+        offensetv.setText("Crime Category: " + offense);
+        addresstv.setText("Location: " + address);
+        reportedDateTexttv.setText( "Reported Date: "+ reportedDateText);
 
 
 
