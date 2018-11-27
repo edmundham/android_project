@@ -32,13 +32,6 @@ public class FilterService {
         List<Crime> searchedList = crimesGetByOffence(input);
         if (!searchedList.isEmpty()) {
             temp.addAll(searchedList);
-        }
-        searchedList = crimesGetByOffenceCategory(input);
-        if (!searchedList.isEmpty()) {
-            temp.addAll(searchedList);
-            Set<Crime> crimeSet = new HashSet<>(temp);
-            temp.clear();
-            crimeSet.addAll(temp);
             return temp;
         }
 
@@ -61,6 +54,12 @@ public class FilterService {
         }
 
         searchedList = crimesGetByStreetName(input);
+        if (!searchedList.isEmpty()) {
+            temp.addAll(searchedList);
+            return temp;
+        }
+
+        searchedList = crimesGetByMonth(input);
         if (!searchedList.isEmpty()) {
             temp.addAll(searchedList);
             return temp;
@@ -93,6 +92,16 @@ public class FilterService {
         List<Crime> tempList = new ArrayList<>();
         for (Crime crime : crimes) {
             if (crime.getReportedWeekday().toLowerCase().contains(weekDay.toLowerCase())) {
+                tempList.add(crime);
+            }
+        }
+        return tempList;
+    }
+
+    public List<Crime> crimesGetByMonth(String month) {
+        List<Crime> tempList = new ArrayList<>();
+        for (Crime crime : crimes) {
+            if (crime.getMonth().toLowerCase().contains(month.toLowerCase())) {
                 tempList.add(crime);
             }
         }

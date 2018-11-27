@@ -17,8 +17,6 @@ import ca.bcit.android_project.model.Crime;
 import ca.bcit.android_project.R;
 
 public class CsvProcess {
-    public double userLat;
-    public double userLong;
     public static final String csvFileSuggestedAddress = "../res/raw/data.csv";
     public static List<Crime> crimes;
 
@@ -35,7 +33,7 @@ public class CsvProcess {
             final CSVParser parser = new CSVParser(reader, CSVFormat.EXCEL.withHeader("X", "Y",
                     "OBJECTID", "FileNumber", "OccuranceYear", "ReportedDate", "ReportedTime",
                     "ReportedWeekday", "Offense", "OffenseCategory", "HouseNumber", "StreetName",
-                    "City", "ReportedDateText", "ReportedTimeText"));
+                    "City", "ReportedDateText", "ReportedTimeText", "Lat", "Lon"));
 
             for (CSVRecord record : parser) {
                 if (record.get("City").equalsIgnoreCase("City")) {
@@ -45,7 +43,8 @@ public class CsvProcess {
                         record.get("FileNumber"), record.get("OccuranceYear"), record.get("ReportedDate"),
                         record.get("ReportedTime"), record.get("ReportedWeekday"), record.get("Offense"),
                         record.get("OffenseCategory"), record.get("HouseNumber"), record.get("StreetName"),
-                        record.get("City"), record.get("ReportedDateText"), record.get("ReportedTimeText"), null, null));
+                        record.get("City"), record.get("ReportedDateText"), record.get("ReportedTimeText"),
+                        record.get("Lat"), record.get("Lon")));
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();

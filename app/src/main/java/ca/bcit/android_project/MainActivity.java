@@ -23,9 +23,34 @@ import com.google.android.gms.maps.model.LatLng;
 import java.io.Serializable;
 import java.util.List;
 
+import ca.bcit.android_project.model.Crime;
+import ca.bcit.android_project.service.CsvProcess;
+
+import static ca.bcit.android_project.service.CsvProcess.convertCsvToListOfCrimes;
+
 public class MainActivity extends AppCompatActivity {
 
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
+
+    public void calculateAlertLevel(Location userLocation) {
+        List<Crime> crimes = CsvProcess.convertCsvToListOfCrimes(this);
+        int counter = 0;
+        for (Crime crime : crimes) {
+            Location crimeLocation = new Location("CrimeLocation");
+            crimeLocation.setLatitude(Double.parseDouble(crime.getLat()));
+            crimeLocation.setLongitude(Double.parseDouble(crime.getLon()));
+            if (userLocation.distanceTo(crimeLocation) < 1000) {
+                counter++;
+            }
+        }
+        if (counter > 100) {
+            counter = 100;
+        }
+        TextView textView2 = findViewById(R.id.textView2);
+        textView2.setText(String.valueOf(counter));
+
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,15 +60,11 @@ public class MainActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkLocationPermission();
         }
-//        LocationRequest locationrequest = LocationRequest.create();
-//        locationrequest.setInterval(10000);
 
         final LocationListener mLocationListener = new LocationListener() {
             @Override
             public void onLocationChanged(final Location location) {
-//                TextView textView2 = findViewById(R.id.textView2);
-//                String locationString = location.getLatitude() + " " +location.getLongitude();
-//                textView2.setText(locationString);
+
             }
 
             @Override
@@ -62,12 +83,9 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mLocationListener);
-        double userLat = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLatitude();
-        double userLon = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLongitude();
-        LatLng userLatLng = new LatLng(userLat, userLon);
-        TextView textView2 = findViewById(R.id.textView2);
-        textView2.setText(String.valueOf(userLatLng.latitude + " " + userLatLng.longitude));
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 0, mLocationListener);
+        calculateAlertLevel(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER));
+
     }
 
     public void map(View v) {

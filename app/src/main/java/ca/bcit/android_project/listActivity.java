@@ -55,6 +55,9 @@ public class listActivity extends AppCompatActivity {
         }
         ListView lv = findViewById(R.id.crimesList);
 
+        TextView crimeSize = findViewById(R.id.results);
+        crimeSize.setText(String.valueOf(crimesList.size()) + " Crimes");
+
         lv.setAdapter(new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, crimesAddress));
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener(){
