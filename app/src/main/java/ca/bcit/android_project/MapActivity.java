@@ -3,6 +3,7 @@ package ca.bcit.android_project;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -13,14 +14,22 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -33,6 +42,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
@@ -41,6 +51,8 @@ import java.util.List;
 
 import ca.bcit.android_project.model.Crime;
 import ca.bcit.android_project.service.CsvProcess;
+import ca.bcit.android_project.service.FilterService;
+
 import android.widget.GridLayout.LayoutParams;
 
 
@@ -54,6 +66,7 @@ public class MapActivity extends AppCompatActivity implements
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
     private List<Crime> crimes;
+    private List<Marker> markers;
 
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
 
@@ -85,13 +98,24 @@ public class MapActivity extends AppCompatActivity implements
         mapFragment.getMapAsync(this);
 
         crimes = CsvProcess.convertCsvToListOfCrimes(this);
+        markers = new ArrayList<>();
 
         mContext = getApplicationContext();
 
         // Get the activity
         mActivity = MapActivity.this;
 
-
+        EditText searchBox = findViewById(R.id.searchBox);
+        searchBox.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    performSearch(v.getText().toString());
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     @Override
@@ -112,59 +136,24 @@ public class MapActivity extends AppCompatActivity implements
             mMap.setMyLocationEnabled(true);
         }
 
-        for (int i = 0; i < 20; i++) {
-            String address = crimes.get(i).getHouseNumber().replace('X', '0')
-                    + crimes.get(i).getStreetName() + crimes.get(i).getCity();
-            LatLng latLng = null;
-            Geocoder coder = new Geocoder(this);
-            List<Address> googleAddress;
-            try {
-                googleAddress = coder.getFromLocationName(address, 1);
-                latLng = new LatLng(googleAddress.get(0).getLatitude(), googleAddress.get(0).getLongitude());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            if (latLng == null) {
-                continue;
-            }
-            mMap.addMarker(new MarkerOptions().position(latLng));
+        for (int i = 0; i < crimes.size(); i++) {
+            LatLng latLng = new LatLng(Double.parseDouble(crimes.get(i).getLat()), Double.parseDouble(crimes.get(i).getLon()));
+            Marker marker = mMap.addMarker(new MarkerOptions().position(latLng));
+            marker.setTag(i);
+            markers.add(marker);
         }
 
-//        LatLngGetByAddress latLngGetByAddress = new LatLngGetByAddress();
-        
-//        String address = crimes.get(0).getHouseNumber().replace('X', '0')
-//                    + crimes.get(0).getStreetName() + crimes.get(0).getCity();
-//        LatLng latLng = null;
-//        Geocoder coder = new Geocoder(this);
-//        List<Address> googleAddress = null;
-//        try {
-//            googleAddress = coder.getFromLocationName(address, 1);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        latLng = new LatLng(googleAddress.get(0).getLatitude(), googleAddress.get(0).getLongitude());
-//        mMap.addMarker(new MarkerOptions().position(latLng));
-        
-//        for (Crime crime : crimes) {
-//            String address = crime.getHouseNumber().replace('X', '0')
-//                    + crime.getStreetName() + crime.getCity();
-//            LatLng latLng = null;
-//            Geocoder coder = new Geocoder(this);
-//            List<Address> googleAddress;
-//            try {
-//                googleAddress = coder.getFromLocationName(address, 1);
-//                latLng = new LatLng(googleAddress.get(0).getLatitude(), googleAddress.get(0).getLongitude());
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//            if (latLng == null) {
-//                continue;
-//            }
-//            mMap.addMarker(new MarkerOptions().position(latLng));
-//        }
-
-//        DON'T NEED TO MOVE THE CAMERA TO THE DEFAULT LOCATION WITH ZOOMING VALUE
-//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, 13f));
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                int position = (int)(marker.getTag());
+                Intent intent = new Intent(MapActivity.this, CrimeActivity.class);
+                String data = crimes.get(position).toString();
+                intent.putExtra("data", data);
+                startActivity(intent);
+                return true;
+            }
+        });
     }
 
     protected synchronized void buildGoogleApiClient() {
@@ -275,5 +264,29 @@ public class MapActivity extends AppCompatActivity implements
 
     }
 
-}
+    private void performSearch(String input) {
+        FilterService filterService = new FilterService(this);
+        crimes = filterService.search(input);
 
+        mMap.clear();
+
+        for (int i = 0; i < crimes.size(); i++) {
+            LatLng latLng = new LatLng(Double.parseDouble(crimes.get(i).getLat()), Double.parseDouble(crimes.get(i).getLon()));
+            Marker marker = mMap.addMarker(new MarkerOptions().position(latLng));
+            marker.setTag(i);
+            markers.add(marker);
+        }
+
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                int position = (int)(marker.getTag());
+                Intent intent = new Intent(MapActivity.this, CrimeActivity.class);
+                String data = crimes.get(position).toString();
+                intent.putExtra("data", data);
+                startActivity(intent);
+                return true;
+            }
+        });
+    }
+}

@@ -17,13 +17,15 @@
 
     <EditText
         android:id="@+id/searchBox"
-        android:layout_width="250dp"
+        android:layout_width="343dp"
         android:layout_height="34dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="24dp"
         android:background="@android:color/white"
         android:hint="Search Location"
+        android:imeOptions="actionSearch"
+        android:inputType="text"
         android:paddingLeft="3dp"
         android:textColor="@android:color/black"></EditText>
 

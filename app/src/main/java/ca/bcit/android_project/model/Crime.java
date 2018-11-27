@@ -131,6 +131,34 @@ public class Crime implements Serializable {
         return reportedDateText;
     }
 
+    public String getMonth() {
+        if (reportedDateText.contains("Jan")) {
+            return "January";
+        } else if (reportedDateText.contains("Feb")) {
+            return "February";
+        } else if (reportedDateText.contains("Mar")) {
+            return "March";
+        } else if (reportedDateText.contains("Apr")) {
+            return "April";
+        } else if (reportedDateText.contains("May")) {
+            return "May";
+        } else if (reportedDateText.contains("Jun")) {
+            return "June";
+        } else if (reportedDateText.contains("Jul")) {
+            return "July";
+        } else if (reportedDateText.contains("Aug")) {
+            return "August";
+        } else if (reportedDateText.contains("Sep")) {
+            return "September";
+        } else if (reportedDateText.contains("Oct")) {
+            return "October";
+        } else if (reportedDateText.contains("Nov")) {
+            return "November";
+        } else {
+            return "December";
+        }
+    }
+
     public void setReportedDateText(String reportedDateText) {
         this.reportedDateText = reportedDateText;
     }
