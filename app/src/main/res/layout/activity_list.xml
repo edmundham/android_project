@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     tools:context=".listActivity">
 
@@ -13,7 +13,7 @@
         android:layout_height="34dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="24dp"
         android:background="@android:color/white"
         android:hint="Search Location"
         android:imeOptions="actionSearch"
@@ -30,13 +30,23 @@
         android:layout_marginTop="5dp"
         android:background="@drawable/ic_search" />
 
+    <TextView
+        android:id="@+id/results"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/searchBox"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:text="TextView" />
+
     <ListView
         android:id="@+id/crimesList"
         android:layout_width="match_parent"
         android:layout_height="494dp"
+        android:layout_below="@+id/results"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-
         app:layout_constraintBottom_toBottomOf="@id/searchBox"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
