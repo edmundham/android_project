@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
             Location crimeLocation = new Location("CrimeLocation");
             crimeLocation.setLatitude(Double.parseDouble(crime.getLat()));
             crimeLocation.setLongitude(Double.parseDouble(crime.getLon()));
-            if (userLocation.distanceTo(crimeLocation) < 1000) {
+            if (userLocation.distanceTo(crimeLocation) < 500) {
                 counter++;
             }
         }
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         final LocationListener mLocationListener = new LocationListener() {
             @Override
             public void onLocationChanged(final Location location) {
-
+                calculateAlertLevel(location);
             }
 
             @Override

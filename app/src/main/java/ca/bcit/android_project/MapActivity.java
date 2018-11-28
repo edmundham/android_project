@@ -80,10 +80,6 @@ public class MapActivity extends AppCompatActivity implements
 
     private PopupWindow mPopupWindow;
 
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
