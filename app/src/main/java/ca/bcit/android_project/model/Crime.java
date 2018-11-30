@@ -1,8 +1,6 @@
 package ca.bcit.android_project.model;
 
 import java.io.Serializable;
-import java.sql.Date;
-import java.sql.Timestamp;
 
 public class Crime implements Serializable {
     private String x;

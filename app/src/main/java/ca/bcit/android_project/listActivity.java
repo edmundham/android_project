@@ -1,22 +1,20 @@
 package ca.bcit.android_project;
+
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import android.view.KeyEvent;
-
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import android.widget.TextView;
 
 import ca.bcit.android_project.model.Crime;
 import ca.bcit.android_project.service.CsvProcess;
@@ -100,10 +98,5 @@ public class listActivity extends AppCompatActivity {
 
         TextView crimeSize = findViewById(R.id.results);
         crimeSize.setText(String.format("%s Crimes", String.valueOf(crimesList.size())));
-
     }
-
-
-
-
 }

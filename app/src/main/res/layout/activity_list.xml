@@ -9,17 +9,18 @@
 
     <EditText
         android:id="@+id/searchBox"
-        android:layout_width="343dp"
+        android:layout_width="280dp"
         android:layout_height="34dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="24dp"
         android:background="@android:color/white"
-        android:hint="Search Location"
+        android:hint="@string/search_location"
         android:imeOptions="actionSearch"
         android:inputType="text"
-        android:paddingLeft="3dp"
-        android:textColor="@android:color/black"></EditText>
+        android:paddingStart="3dp"
+        android:textColor="@android:color/black"
+        tools:ignore="RtlSymmetry" />
 
     <Button
         android:id="@+id/search"
@@ -37,7 +38,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="65dp"
-        android:text="TextView" />
+        android:text="@string/list_placeholder" />
 
     <ListView
         android:id="@+id/crimesList"

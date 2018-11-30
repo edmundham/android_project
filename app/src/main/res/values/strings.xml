@@ -10,4 +10,13 @@
     <string name="alert_rate">Alert Rate</string>
     <string name="crime_rate">Crime Rate</string>
     <string name="map">Map</string>
+    <string name="search_placeholder">Search</string>
+    <string name="crime_image">CRIME IMAGE</string>
+    <string name="crime_placeholder">CRIME PLACEHOLDER</string>
+    <string name="crime_detail">Crime Detail</string>
+    <string name="search_location">Search Location</string>
+    <string name="list_placeholder">LIST PLACEHOLDER</string>
+    <string name="logo">LOGO</string>
+    <string name="search">Search</string>
+    <string name="start">Start</string>
 </resources>

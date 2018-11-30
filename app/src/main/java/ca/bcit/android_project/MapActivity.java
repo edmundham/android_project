@@ -55,7 +55,6 @@ import ca.bcit.android_project.service.FilterService;
 
 import android.widget.GridLayout.LayoutParams;
 
-
 public class MapActivity extends AppCompatActivity implements
         OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
@@ -66,19 +65,11 @@ public class MapActivity extends AppCompatActivity implements
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
     private List<Crime> crimes;
-    private List<Marker> markers;
 
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
 
-
-
     private Context mContext;
     private Activity mActivity;
-
-    private RelativeLayout mRelativeLayout;
-    private Button mButton;
-
-    private PopupWindow mPopupWindow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +85,6 @@ public class MapActivity extends AppCompatActivity implements
         mapFragment.getMapAsync(this);
 
         crimes = CsvProcess.convertCsvToListOfCrimes(this);
-        markers = new ArrayList<>();
 
         mContext = getApplicationContext();
 
@@ -136,7 +126,6 @@ public class MapActivity extends AppCompatActivity implements
             LatLng latLng = new LatLng(Double.parseDouble(crimes.get(i).getLat()), Double.parseDouble(crimes.get(i).getLon()));
             Marker marker = mMap.addMarker(new MarkerOptions().position(latLng));
             marker.setTag(i);
-            markers.add(marker);
         }
 
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
@@ -175,7 +164,6 @@ public class MapActivity extends AppCompatActivity implements
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
         }
 
-//        THIS WILL MAKE CENTER THE MAP TO THE CURRENT USERS LOCATION, WILL EXECUTE ONLY ONCE WHEN THE MAP IS LOADED
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
                 mGoogleApiClient);
         if (mLastLocation != null) {
@@ -186,16 +174,13 @@ public class MapActivity extends AppCompatActivity implements
 
     @Override
     public void onLocationChanged(Location location) {
-
         mLastLocation = location;
 
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-
-//        mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+        mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
     }
 
     public void checkLocationPermission() {
-
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // Asking user if explanation is needed
@@ -218,47 +203,10 @@ public class MapActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String permissions[], @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_LOCATION: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    // permission was granted. Do the
-                    // contacts-related task you need to do.
-                    if (ContextCompat.checkSelfPermission(this,
-                            Manifest.permission.ACCESS_FINE_LOCATION)
-                            == PackageManager.PERMISSION_GRANTED) {
-
-                        if (mGoogleApiClient == null) {
-                            buildGoogleApiClient();
-                        }
-                        mMap.setMyLocationEnabled(true);
-                    }
-
-                } else {
-
-                    // Permission denied, Disable the functionality that depends on this permission.
-                    Toast.makeText(this, "permission denied", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            // other 'case' lines to check for other permissions this app might request.
-            // You can add here other case statements according to your requirement.
-        }
-    }
+    public void onConnectionSuspended(int i) {}
 
     @Override
-    public void onConnectionSuspended(int i) {
-
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-    }
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {}
 
     private void performSearch(String input) {
         FilterService filterService = new FilterService(this);
@@ -270,7 +218,6 @@ public class MapActivity extends AppCompatActivity implements
             LatLng latLng = new LatLng(Double.parseDouble(crimes.get(i).getLat()), Double.parseDouble(crimes.get(i).getLon()));
             Marker marker = mMap.addMarker(new MarkerOptions().position(latLng));
             marker.setTag(i);
-            markers.add(marker);
         }
 
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
